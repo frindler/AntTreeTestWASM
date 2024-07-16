@@ -1,0 +1,219 @@
+﻿@page "/"
+@using System.Text.Json
+@using System.Xml.Linq
+
+<PageTitle>Home</PageTitle>
+
+<Tree
+      TItem="XElement"
+      Checkable
+      DefaultExpandAll
+      DataSource="@([_tree])"
+      DefaultCheckedKeys="@_selectedItems"
+      @bind-CheckedKeys="@_selectedItems"
+      ChildrenExpression="@(x => x.DataItem.Elements())"
+      IconExpression="@null"
+      TitleExpression="@(x => x.DataItem.Attribute("title")?.Value ?? "")"
+      IsLeafExpression="@(x => x.DataItem.Name == "file")"
+      KeyExpression="@(x => x.DataItem.Attribute("path")?.Value ?? "")">
+</Tree>
+@JsonSerializer.Serialize(_selectedItems)
+
+
+
+@code
+{
+    string[] _selectedItems = new string[0];
+
+      XElement _tree =
+          new XElement("dir",
+                       new XAttribute("title", "/"),
+                       new XAttribute("path", "/"),
+                       new XElement("dir",
+                                    new XAttribute("title", "dir1"),
+                                    new XAttribute("path", "/dir1/"),
+                                    new XElement("file",
+                                                 new XAttribute("title", "file1"),
+                                                 new XAttribute("path", "/dir1/file1")),
+                                    new XElement("file",
+                                                 new XAttribute("title", "file2"),
+                                                 new XAttribute("path", "/dir1/file2"))
+                       ),
+                       new XElement("dir",
+                                    new XAttribute("title", "dir2"),
+                                    new XAttribute("path", "/dir2/"),
+                                    new XElement("file",
+                                                 new XAttribute("title", "file3"),
+                                                 new XAttribute("path", "/dir1/file3")),
+                                    new XElement("file",
+                                                 new XAttribute("title", "file4"),
+                                                 new XAttribute("path", "/dir1/file4"))
+                       )
+          );
+}
+
+@* *@
+@* <div> *@
+@*     <Tree ShowIcon Checkable DefaultExpandAll *@
+@*           CheckedKeys="@_selected" *@
+@*           CheckedKeysChanged="Callback" *@
+@*           DataSource="datas" *@
+@*           KeyExpression="x=>x.DataItem.Id" *@
+@*           TitleExpression="x => x.DataItem.Title" *@
+@*           ChildrenExpression="x => x.DataItem.Children"> *@
+@*     </Tree> *@
+@* </div> *@
+@* @JsonSerializer.Serialize(_selected) *@
+@* *@
+@* @code { *@
+@*     string[]? _selected; *@
+@* *@
+@*     List<Data> datas = new List<Data>() *@
+@*                        { *@
+@*                            new("0-0", "0-0") *@
+@*                            { *@
+@*                                Children = new() *@
+@*                                           { *@
+@*                                               new("0-0-0", "0-0-0") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-0-0-0", "0-0-0-0"), *@
+@*                                                                  new("0-0-0-1", "0-0-0-1"), *@
+@*                                                                  new("0-0-0-2", "0-0-0-2"), *@
+@*                                                              } *@
+@*                                               }, *@
+@*                                               new("0-0-1", "0-0-1") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-0-1-0", "0-0-1-0"), *@
+@*                                                                  new("0-0-1-1", "0-0-1-1"), *@
+@*                                                                  new("0-0-1-2", "0-0-1-2"), *@
+@*                                                              } *@
+@*                                               }, *@
+@*                                               new("0-0-2", "0-0-2"), *@
+@*                                           } *@
+@*                            }, *@
+@*                            new("0-1", "0-1") *@
+@*                            { *@
+@*                                Children = new() *@
+@*                                           { *@
+@*                                               new("0-1-0", "0-1-0") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-1-0-0", "0-1-0-0"), *@
+@*                                                                  new("0-1-0-1", "0-1-0-1"), *@
+@*                                                                  new("0-1-0-2", "0-1-0-2"), *@
+@*                                                              }, *@
+@*                                               }, *@
+@*                                               new("0-1-1", "0-1-1") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-1-1-0", "0-1-1-0"), *@
+@*                                                                  new("0-1-1-1", "0-1-1-1"), *@
+@*                                                                  new("0-1-1-2", "0-1-1-2"), *@
+@*                                                              }, *@
+@*                                               }, *@
+@*                                               new("0-1-2", "0-1-2"), *@
+@*                                           } *@
+@*                            }, *@
+@*                            new("0-2", "0-2"), *@
+@*                        }; *@
+@* *@
+@*     private record Data(string Id, string Title) *@
+@*     { *@
+@*         public List<Data> Children { get; set; } = new List<Data>(); *@
+@*     } *@
+@* *@
+@*     private void Callback(string[] obj) *@
+@*     { *@
+@*         _selected = obj; *@
+@*     } *@
+@* *@
+@* } *@
+
+
+@* <div> *@
+@*     <Tree ShowIcon Checkable DefaultExpandAll *@
+@*           CheckedKeys="@_selected" *@
+@*           CheckedKeysChanged="Callback" *@
+@*           DataSource="datas" *@
+@*           KeyExpression="x=>x.DataItem.Id" *@
+@*           TitleExpression="x => x.DataItem.Title" *@
+@*           ChildrenExpression="x => x.DataItem.Children"> *@
+@*     </Tree> *@
+@* </div> *@
+@* @JsonSerializer.Serialize(_selected) *@
+@* *@
+@* @code { *@
+@*     string[]? _selected; *@
+@* *@
+@*     List<Data> datas = new List<Data>() *@
+@*                        { *@
+@*                            new("0-0", "0-0") *@
+@*                            { *@
+@*                                Children = new() *@
+@*                                           { *@
+@*                                               new("0-0-0", "0-0-0") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-0-0-0", "0-0-0-0"), *@
+@*                                                                  new("0-0-0-1", "0-0-0-1"), *@
+@*                                                                  new("0-0-0-2", "0-0-0-2"), *@
+@*                                                              } *@
+@*                                               }, *@
+@*                                               new("0-0-1", "0-0-1") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-0-1-0", "0-0-1-0"), *@
+@*                                                                  new("0-0-1-1", "0-0-1-1"), *@
+@*                                                                  new("0-0-1-2", "0-0-1-2"), *@
+@*                                                              } *@
+@*                                               }, *@
+@*                                               new("0-0-2", "0-0-2"), *@
+@*                                           } *@
+@*                            }, *@
+@*                            new("0-1", "0-1") *@
+@*                            { *@
+@*                                Children = new() *@
+@*                                           { *@
+@*                                               new("0-1-0", "0-1-0") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-1-0-0", "0-1-0-0"), *@
+@*                                                                  new("0-1-0-1", "0-1-0-1"), *@
+@*                                                                  new("0-1-0-2", "0-1-0-2"), *@
+@*                                                              }, *@
+@*                                               }, *@
+@*                                               new("0-1-1", "0-1-1") *@
+@*                                               { *@
+@*                                                   Children = new() *@
+@*                                                              { *@
+@*                                                                  new("0-1-1-0", "0-1-1-0"), *@
+@*                                                                  new("0-1-1-1", "0-1-1-1"), *@
+@*                                                                  new("0-1-1-2", "0-1-1-2"), *@
+@*                                                              }, *@
+@*                                               }, *@
+@*                                               new("0-1-2", "0-1-2"), *@
+@*                                           } *@
+@*                            }, *@
+@*                            new("0-2", "0-2"), *@
+@*                        }; *@
+@* *@
+@*     private record Data(string Id, string Title) *@
+@*     { *@
+@*         public List<Data> Children { get; set; } = new List<Data>(); *@
+@*     } *@
+@* *@
+@*     private void Callback(string[] obj) *@
+@*     { *@
+@*         _selected = obj; *@
+@*     } *@
+@* *@
+@* } *@
