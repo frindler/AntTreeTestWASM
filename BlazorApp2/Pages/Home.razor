@@ -8,7 +8,7 @@
       TItem="XElement"
       Checkable
       DefaultExpandAll
-      DataSource="@([_tree])"
+      DataSource="@_tree"
       DefaultCheckedKeys="@_selectedItems"
       @bind-CheckedKeys="@_selectedItems"
       ChildrenExpression="@(x => x.DataItem.Elements())"
@@ -25,31 +25,33 @@
 {
     string[] _selectedItems = new string[0];
 
-      XElement _tree =
-          new XElement("dir",
-                       new XAttribute("title", "/"),
-                       new XAttribute("path", "/"),
-                       new XElement("dir",
-                                    new XAttribute("title", "dir1"),
-                                    new XAttribute("path", "/dir1/"),
-                                    new XElement("file",
-                                                 new XAttribute("title", "file1"),
-                                                 new XAttribute("path", "/dir1/file1")),
-                                    new XElement("file",
-                                                 new XAttribute("title", "file2"),
-                                                 new XAttribute("path", "/dir1/file2"))
-                       ),
-                       new XElement("dir",
-                                    new XAttribute("title", "dir2"),
-                                    new XAttribute("path", "/dir2/"),
-                                    new XElement("file",
-                                                 new XAttribute("title", "file3"),
-                                                 new XAttribute("path", "/dir1/file3")),
-                                    new XElement("file",
-                                                 new XAttribute("title", "file4"),
-                                                 new XAttribute("path", "/dir1/file4"))
-                       )
-          );
+    List<XElement> _tree = new()
+                           {
+                               new XElement("dir",
+                                            new XAttribute("title", "/"),
+                                            new XAttribute("path", "/"),
+                                            new XElement("dir",
+                                                         new XAttribute("title", "dir1"),
+                                                         new XAttribute("path", "/dir1/"),
+                                                         new XElement("file",
+                                                                      new XAttribute("title", "file1"),
+                                                                      new XAttribute("path", "/dir1/file1")),
+                                                         new XElement("file",
+                                                                      new XAttribute("title", "file2"),
+                                                                      new XAttribute("path", "/dir1/file2"))
+                                            ),
+                                            new XElement("dir",
+                                                         new XAttribute("title", "dir2"),
+                                                         new XAttribute("path", "/dir2/"),
+                                                         new XElement("file",
+                                                                      new XAttribute("title", "file3"),
+                                                                      new XAttribute("path", "/dir1/file3")),
+                                                         new XElement("file",
+                                                                      new XAttribute("title", "file4"),
+                                                                      new XAttribute("path", "/dir1/file4"))
+                                            )
+                               )
+                           };
 }
 
 @* *@
